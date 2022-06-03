@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:dropdown_button2/custom_dropdown_button2.dart';
+import 'package:flutter/services.dart';
 
 class ValuePage extends StatefulWidget {
   @override
@@ -30,37 +31,56 @@ class _DateTimeState extends State<ValuePage> {
     'Outros',
   ];
   String? selectedValue;
+  String valor = "";
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Banco de Despesas'),
+        backgroundColor: Color.fromARGB(255, 250, 250, 251),
+        shadowColor: Colors.blue,
+        title: Text(style: TextStyle(color: Colors.blue), 'Despesas'),
       ),
       body: Column(
         children: <Widget>[
           Center(
               child: Column(
             children: [
-              Text("${selectedDate.toLocal()}".split(' ')[0]),
+              Container(
+                margin: const EdgeInsets.fromLTRB(0.0, 135.0, 0.0, 0.0),
+                child: Text("${selectedDate.toLocal()}".split(' ')[0]),
+              ),
             ],
           )),
           SizedBox(
-            height: 20.0,
+            height: 10.0,
           ),
           TextButton(
             onPressed: () => _selectDate(context),
-            child: Text('Select date'),
+            child: Text('Selecione a Data'),
+          ),
+          SizedBox(
+            height: 10.0,
           ),
           CustomDropdownButton2(
-              hint: 'Select Item',
-              dropdownItems: items,
-              value: selectedValue,
-              onChanged: (value) {
-                setState(() {
+            hint: 'Selecione o Item',
+            dropdownItems: items,
+            value: selectedValue,
+            onChanged: (value) {
+              setState(
+                () {
                   selectedValue = value;
-                });
-              })
+                },
+              );
+            },
+          ),
+          new TextField(
+            decoration: new InputDecoration(labelText: "Enter your number"),
+            keyboardType: TextInputType.number,
+            inputFormatters: <TextInputFormatter>[
+              FilteringTextInputFormatter.digitsOnly
+            ],
+          ),
         ],
       ),
     );
